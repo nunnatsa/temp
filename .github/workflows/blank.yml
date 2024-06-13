@@ -30,12 +30,11 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
-        run: gh issue edit "$NUMBER" --add-label "$LABELS"
+        run: gh issue edit "$NUMBER" --add-label "sanity-passed"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_REPO: ${{ github.repository }}
-          NUMBER: ${{ github.event.issue.number }}
-          LABELS: sanity-passed
+          NUMBER: ${{ github.event.pull_request.number }}
 
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
