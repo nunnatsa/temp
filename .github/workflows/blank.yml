@@ -5,9 +5,7 @@ name: CI
 # Controls when the workflow will run
 on:
   push:
-    branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]
   workflow_dispatch:
 
 jobs:
@@ -22,6 +20,6 @@ jobs:
 
       - name: echo main branch
         run: |
-          if [[ ${{ github.event_name }} == "workflow_dispatch" ]]; then
+          if [[ ${{ github.event_name }} == "workflow_dispatch" && ${{ github.ref }} == "refs/heads/test" ]]; then
             echo "trigger = workflow_dispatch"
           fi
