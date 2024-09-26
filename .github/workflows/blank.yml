@@ -20,6 +20,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: get current branch
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          echo ${{ github.ref }}
+
       - name: remove sanity-passed before starting
         run: gh issue edit "$NUMBER" --remove-label "sanity-passed"
         env:
