@@ -23,9 +23,7 @@ jobs:
       - name: get current branch
         if: github.event_name == 'workflow_dispatch'
         run: |
-          echo ${{ github.ref }}
-          echo "GITHUB_HEAD_REF: ${GITHUB_HEAD_REF}"
-          echo "GITHUB_REF: ${GITHUB_REF}"
+          echo "current branch: ${GITHUB_REF#refs/heads/}"
 
       - name: remove sanity-passed before starting
         run: gh issue edit "$NUMBER" --remove-label "sanity-passed"
