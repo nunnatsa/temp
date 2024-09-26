@@ -20,10 +20,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: get current branch
-        if: github.event_name == 'workflow_dispatch'
+      - name: echo main branch
+        if: github.event_name == 'workflow_dispatch' && github.ref == "refs/heads/main"
         run: |
-          echo "current branch: ${GITHUB_REF#refs/heads/}"
+          echo "I'm in main"
+
+      - name: echo test branch
+        if: github.event_name == 'workflow_dispatch' && github.ref == "refs/heads/test"
+        run: |
+          echo "I'm in test"
 
       - name: remove sanity-passed before starting
         run: gh issue edit "$NUMBER" --remove-label "sanity-passed"
