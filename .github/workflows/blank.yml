@@ -21,28 +21,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: echo main branch
-        if: (github.event_name == 'workflow_dispatch') && (github.ref == 'refs/heads/main')
         run: |
-          echo "I'm in main"
-
-      - name: echo test branch
-        if: (github.event_name == 'workflow_dispatch') && (github.ref == 'refs/heads/test')
-        run: |
-          echo "I'm in test"
-
-      - name: remove sanity-passed before starting
-        run: gh issue edit "$NUMBER" --remove-label "sanity-passed"
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GH_REPO: ${{ github.repository }}
-          NUMBER: ${{ github.event.pull_request.number }}
-
-      - name: Run a multi-line script
-        run: |
-          if [[ -f testfile ]]; then
-            gh issue edit "$NUMBER" --add-label "sanity-passed"
+          if [[ ${{ github.event_name }} == "workflow_dispatch" ]]; then
+            echo "trigger = workflow_dispatch"
           fi
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GH_REPO: ${{ github.repository }}
-          NUMBER: ${{ github.event.pull_request.number }}
