@@ -6,8 +6,8 @@ name: CI
 on:
   issue_comment:
     types: [created]
-  schedule:
-    - cron:  '*/5 * * * *'
+#  schedule:
+#    - cron:  '*/5 * * * *'
   workflow_dispatch:
 
 jobs:
