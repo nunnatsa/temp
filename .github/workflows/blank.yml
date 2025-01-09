@@ -11,10 +11,10 @@ on:
   workflow_dispatch:
 
 jobs:
-  name: Check for redundant CI lanes for override
-  if: (github.event.issue.pull_request != '') && (contains(github.event.comment.body, '/override-bot')) && (github.repository == 'nunnatsa/temp')
-  runs-on: ubuntu-latest
-  steps:
-    - name: Checkout the latest code
-      run: |
-        date
+  test:
+    if: (github.event.issue.pull_request != '') && (contains(github.event.comment.body, '/override-bot')) && (github.repository == 'nunnatsa/temp')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the latest code
+        run: |
+          date
