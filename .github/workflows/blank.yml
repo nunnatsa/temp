@@ -4,22 +4,17 @@ name: CI
 
 # Controls when the workflow will run
 on:
-  push:
-  pull_request:
+  issue_comment:
+    types: [created]
+  schedule:
+    - cron:  '*/5 * * * *'
   workflow_dispatch:
 
 jobs:
-  sanity:
-    runs-on: ubuntu-latest
-
-    permissions:
-      pull-requests: write
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: echo main branch
-        run: |
-          if [[ ${{ github.event_name }} == "workflow_dispatch" && ${{ github.ref }} == "refs/heads/test" ]]; then
-            echo "trigger = workflow_dispatch"
-          fi
+  name: Check for redundant CI lanes for override
+  if: (github.event.issue.pull_request != '') && (contains(github.event.comment.body, '/override-bot')) && (github.repository == 'nunnatsa/temp')
+  runs-on: ubuntu-latest
+  steps:
+    - name: Checkout the latest code
+      run: |
+        date
