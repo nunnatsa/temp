@@ -49,4 +49,4 @@ jobs:
       - name: Print the data
         run: |
           echo "BUILD_DATE_TIME: ${{ env.BUILD_DATE_TIME }}"
-          echo "GIT_REF: ${{ env.GIT_REF" }}"
+          echo "GIT_REF: ${{ env.GIT_REF }}"
