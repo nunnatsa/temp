@@ -15,7 +15,7 @@ jobs:
         id: create-date-info
         run: |
           BUILD_DATE_TIME=$(date +%Y-%m-%dT%H:%M:%S)
-          echo "BUILD_DATE_TIME=${BUILD_DATE_TIME}" >> "$GITHUB_OUTPUT"
+          echo "build_date_time=${BUILD_DATE_TIME}" >> "$GITHUB_OUTPUT"
           echo "Generated build BUILD_DATE_TIME: ${BUILD_DATE_TIME}"
       - name: Get git ref
         id: get-git-ref
@@ -26,13 +26,13 @@ jobs:
           else
             GIT_REF=$(echo "${GIT_REF}" | sed 's|refs/heads/||')
           fi
-          echo "GIT_REF=${GIT_REF}" >> "$GITHUB_OUTPUT"
+          echo "git_ref=${GIT_REF}" >> "$GITHUB_OUTPUT"
           echo "Generated git ref: ${GIT_REF}"
     outputs:
       # Define job outputs. The 'new_version' job output will take the value
       # of the 'version' step output from the 'generate-version' step.
-      build_date_time: ${{ steps.create-date-info.outputs.BUILD_DATE_TIME }}
-      git_ref: ${{ steps.get-git-ref.outputs.GIT_REF }}
+      build_date_time: ${{ steps.create-date-info.outputs.build_date_time }}
+      git_ref: ${{ steps.get-git-ref.outputs.git_ref }}
   
   use-info:
     name: Use the data generated in the previous step
@@ -41,6 +41,9 @@ jobs:
     steps:
       - name: Get the data from previous step
         run: |
+          echo "Collecting data from previous step..."
+          echo ${{ needs.collect-info.outputs.build_date_time }}
+          echo ${{ needs.collect-info.outputs.git_ref }}
           echo "BUILD_DATE_TIME=${{ needs.collect-info.outputs.build_date_time }}" >> $GITHUB_ENV
           echo "GIT_REF=${{ needs.collect-info.outputs.git_ref }}" >> $GITHUB_ENV
       - name: Print the data
