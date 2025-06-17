@@ -36,7 +36,7 @@ jobs:
       # of the 'version' step output from the 'generate-version' step.
       build_date_time: ${{ steps.create-date-info.outputs.BUILD_DATE_TIME }}
       git_ref: ${{ steps.get-git-ref.outputs.GIT_REF }}
-      additional-info": ${{ env.ADDITIONAL_INFO }}
+      additional_info": ${{ env.ADDITIONAL_INFO }}
   
   use-info:
     name: Use the data generated in the previous step
@@ -45,7 +45,7 @@ jobs:
     env:
       BUILD_DATE_TIME: ${{ needs.collect-info.outputs.BUILD_DATE_TIME }}
       GIT_REF: ${{ needs.collect-info.outputs.git_ref }}
-      ADDITIONAL_INFO: ${{ needs.collect-info.outputs.additional-info }}
+      ADDITIONAL_INFO: ${{ needs.collect-info.outputs.additional_info }}
     steps:
       - name: Print the data
         run: |
