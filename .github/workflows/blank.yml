@@ -28,11 +28,15 @@ jobs:
           fi
           echo "GIT_REF=${GIT_REF}" >> "$GITHUB_OUTPUT"
           echo "Generated git ref: ${GIT_REF}"
+      - name: Create Environment Variables
+        run: |
+          echo "ADDITIONAL_INFO=additional-info" >> "$GITHUB_ENV"
     outputs:
       # Define job outputs. The 'new_version' job output will take the value
       # of the 'version' step output from the 'generate-version' step.
       build_date_time: ${{ steps.create-date-info.outputs.BUILD_DATE_TIME }}
       git_ref: ${{ steps.get-git-ref.outputs.GIT_REF }}
+      additional-info": ${{ env.ADDITIONAL_INFO }}
   
   use-info:
     name: Use the data generated in the previous step
@@ -40,9 +44,11 @@ jobs:
     needs: collect-info
     env:
       BUILD_DATE_TIME: ${{ needs.collect-info.outputs.BUILD_DATE_TIME }}
-      GIT_REF: ${{ needs.collect-info.outputs.GIT_REF }}
+      GIT_REF: ${{ needs.collect-info.outputs.git_ref }}
+      ADDITIONAL_INFO: ${{ needs.collect-info.outputs.additional-info }}
     steps:
       - name: Print the data
         run: |
           echo "BUILD_DATE_TIME: ${{ env.BUILD_DATE_TIME }}"
           echo "GIT_REF: ${{ env.GIT_REF }}"
+          echo "ADDITIONAL_INFO: ${{ env.ADDITIONAL_INFO }}"
