@@ -5,6 +5,11 @@ name: CI
 # Controls when the workflow will run
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
 
 jobs:
   collect-info:
@@ -21,13 +26,14 @@ jobs:
         id: get-git-ref
         run: |
           GIT_REF=${{ github.ref }}
-          if [[ "${GIT_REF}" == "refs/heads/main" ]]; then
-            GIT_REF="main"
-          else
-            GIT_REF=$(echo "${GIT_REF}" | sed 's|refs/heads/||')
-          fi
           echo "GIT_REF=${GIT_REF}" >> "$GITHUB_OUTPUT"
-          echo "Generated git ref: ${GIT_REF}"
+          # if [[ "${GIT_REF}" == "refs/heads/main" ]]; then
+          #   GIT_REF="main"
+          # else
+          #   GIT_REF=$(echo "${GIT_REF}" | sed 's|refs/heads/||')
+          # fi
+          # echo "GIT_REF=${GIT_REF}" >> "$GITHUB_OUTPUT"
+          # echo "Generated git ref: ${GIT_REF}"
       - name: Create Environment Variables
         run: |
           echo "ADDITIONAL_INFO=additional-info" >> "$GITHUB_ENV"
